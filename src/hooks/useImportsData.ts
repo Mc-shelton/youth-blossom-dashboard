@@ -1,0 +1,37 @@
+import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/context/AuthContext";
+import { useNavigate } from "react-router-dom";
+
+const apiUrl = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
+
+export type ImportJob = {
+  id: string;
+  filename: string;
+  status: "pending" | "failed" | "done" | string;
+  message?: string | null;
+  createdAt: string;
+  finishedAt?: string | null;
+};
+
+export function useImportsData() {
+  const { token, logout } = useAuth();
+  const navigate = useNavigate();
+  const query = useQuery({
+    queryKey: ["imports"],
+    enabled: !!token,
+    refetchInterval: 10000,
+    queryFn: async (): Promise<ImportJob[]> => {
+      const res = await fetch(`${apiUrl}/api/imports`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.status === 401) {
+        logout();
+        navigate("/login");
+        throw new Error("Unauthorized");
+      }
+      if (!res.ok) throw new Error("Failed to fetch imports");
+      return res.json();
+    },
+  });
+  return query;
+}

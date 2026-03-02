@@ -1,108 +1,94 @@
-import { useState } from "react";
-import { Users, UserCheck, UserX, TrendingUp, Calendar, AlertTriangle } from "lucide-react";
-import { MetricCard } from "@/components/dashboard/MetricCard";
-import { AttendanceChart } from "@/components/dashboard/AttendanceChart";
-import { ProgramParticipationChart } from "@/components/dashboard/ProgramParticipationChart";
-import { EngagementPieChart } from "@/components/dashboard/EngagementPieChart";
-import { DashboardFilters } from "@/components/dashboard/DashboardFilters";
-import { RecentActivityFeed } from "@/components/dashboard/RecentActivityFeed";
-import { dashboardMetrics } from "@/data/mockData";
+import { AlertsTicker } from "@/components/nabad/AlertsTicker";
+import { Choropleth } from "@/components/nabad/Choropleth";
+import { PriorityStack } from "@/components/nabad/PriorityStack";
+import { RouteSafety } from "@/components/nabad/RouteSafety";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { DataPrecedenceCard } from "@/components/nabad/DataPrecedenceCard";
+import { defaultWeights } from "@/data/nabad";
+import { ArrowRight, Settings2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { PriorityTable } from "@/components/nabad/PriorityTable";
+import { useSitesData } from "@/hooks/useSitesData";
+import { useImportsData } from "@/hooks/useImportsData";
 
 const Dashboard = () => {
-  const [filters, setFilters] = useState({
-    ageGroup: "all",
-    gender: "all",
-    ministry: "all",
-    timePeriod: "all",
-  });
+  const { data: siteProfiles } = useSitesData();
+  const imports = useImportsData();
 
-  const handleFilterChange = (key: string, value: string) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
-  };
-
-  const clearFilters = () => {
-    setFilters({
-      ageGroup: "all",
-      gender: "all",
-      ministry: "all",
-      timePeriod: "all",
-    });
-  };
-
+  const latestImport = imports.data?.[0];
   return (
     <div className="space-y-6 animate-fade-in">
-      {/* Page Header */}
-      <div className="page-header">
-        <h1 className="page-title">Dashboard Overview</h1>
-        <p className="page-description">
-          Welcome back! Here's an overview of your youth ministry.
-        </p>
-      </div>
-
-      {/* Filters */}
-      <DashboardFilters
-        filters={filters}
-        onFilterChange={handleFilterChange}
-        onClearFilters={clearFilters}
-      />
-
-      {/* Metrics Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-        <MetricCard
-          title="Total Youth"
-          value={dashboardMetrics.totalYouths}
-          icon={Users}
-          change={{ value: 8, label: "this month" }}
-          trend="up"
-        />
-        <MetricCard
-          title="Active Members"
-          value={dashboardMetrics.activeYouths}
-          icon={UserCheck}
-          change={{ value: 5, label: "vs last month" }}
-          trend="up"
-        />
-        <MetricCard
-          title="Inactive"
-          value={dashboardMetrics.inactiveYouths}
-          icon={UserX}
-          change={{ value: -2, label: "vs last month" }}
-          trend="down"
-        />
-        <MetricCard
-          title="Retention Rate"
-          value={`${dashboardMetrics.retentionRate}%`}
-          icon={TrendingUp}
-          change={{ value: 3, label: "vs last quarter" }}
-          trend="up"
-        />
-        <MetricCard
-          title="Active Programs"
-          value={dashboardMetrics.activePrograms}
-          icon={Calendar}
-        />
-        <MetricCard
-          title="At-Risk Youth"
-          value={dashboardMetrics.atRiskCount}
-          icon={AlertTriangle}
-          change={{ value: 2, label: "new this week" }}
-          trend="neutral"
-        />
-      </div>
-
-      {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <AttendanceChart />
-        <ProgramParticipationChart />
-      </div>
-
-      {/* Bottom Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-1">
-          <EngagementPieChart />
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-bold">Oxfam Novib — Vulnerability Brain</h1>
+          <p className="text-muted-foreground">
+            Composite Vulnerability Index driving deployments across Banadir (as of 25 Feb 2026)
+          </p>
         </div>
-        <div className="lg:col-span-2">
-          <RecentActivityFeed />
+        <Badge variant="secondary" className="gap-1">
+          <Settings2 className="h-4 w-4" />
+          Weights: Displacement {defaultWeights.displacement * 100}%, Health {defaultWeights.health * 100}%, Community{" "}
+          {defaultWeights.community * 100}%
+        </Badge>
+        {latestImport && (
+          <Badge variant={latestImport.status === "done" ? "secondary" : latestImport.status === "failed" ? "destructive" : "outline"}>
+            Latest import: {latestImport.filename} ({latestImport.status})
+          </Badge>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
+        <div className="xl:col-span-3 space-y-4">
+          <PriorityTable sites={siteProfiles} />
+          <Choropleth sites={siteProfiles} />
+          <RouteSafety />
+          <DataPrecedenceCard />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {[
+              { title: "Targeting", desc: "Tune weights, view health + displacement signals", to: "/targeting" },
+              { title: "Operations", desc: "Cycle timelines, corridor safety, A/B toggle", to: "/operations" },
+              { title: "Impact", desc: "SADD reach, service mix, vaccination dropout trend", to: "/impact" },
+            ].map((item) => (
+              <Card key={item.title} className="border-dashed hover:border-primary/50 transition">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <p className="font-semibold">{item.title}</p>
+                    <ArrowRight className="h-4 w-4 text-primary" />
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-1">{item.desc}</p>
+                  <Link to={item.to} className="text-sm text-primary font-semibold mt-2 inline-flex items-center gap-1">
+                    Open {item.title}
+                  </Link>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <Card className="border-dashed">
+            <CardContent className="p-4 text-sm text-muted-foreground space-y-1">
+              <p className="font-semibold text-foreground">How decisions are made</p>
+              <ul className="list-disc list-inside space-y-1">
+                <li>
+                  Lead indicator: IOM ETT new-arrival intensity + DHIS2 Penta3 coverage. Alert when Penta3 &lt; 50% or GAM
+                  &gt; 15% in any district.
+                </li>
+                <li>Needs (Protection, Food, Health/Nutrition, Wash, New Arrivals) are critical if marked “Yes”.</li>
+                <li>
+                  CVI ≥ 65 → stage deployment; CVI ≥ 80 + critical need → immediate deployment, with corridor safety override if
+                  safety &lt; 45%.
+                </li>
+                <li>A/B testing keeps control sites constant to measure speed-to-site and cost-per-beneficiary.</li>
+              </ul>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="space-y-4">
+          <PriorityStack sites={siteProfiles} />
+          <AlertsTicker />
+          {imports.isError && <p className="text-xs text-destructive">Failed to load import status</p>}
         </div>
       </div>
     </div>

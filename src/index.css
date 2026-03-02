@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,120 +7,118 @@
 /* Youth Ministry Dashboard Design System
    Warm, welcoming church-friendly palette with modern aesthetics */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
-
 @layer base {
   :root {
-    /* Warm blue - trustworthy, calming */
-    --primary: 215 70% 45%;
+    /* Nabad palette — anchored to logo green */
+    --primary: 86 64% 44%;
     --primary-foreground: 0 0% 100%;
     
-    /* Warm amber/gold - welcoming, hopeful */
-    --accent: 35 90% 52%;
-    --accent-foreground: 30 50% 15%;
+    /* Warm sand accent for calls-to-action */
+    --accent: 32 84% 52%;
+    --accent-foreground: 28 60% 14%;
     
-    /* Soft warm backgrounds */
-    --background: 220 20% 98%;
-    --foreground: 220 30% 15%;
+    /* Soft off-white background to match logo negative space */
+    --background: 90 20% 97%;
+    --foreground: 210 18% 16%;
     
-    /* Cards with subtle warmth */
+    /* Cards with gentle elevation */
     --card: 0 0% 100%;
-    --card-foreground: 220 30% 15%;
+    --card-foreground: 210 18% 16%;
     
     --popover: 0 0% 100%;
-    --popover-foreground: 220 30% 15%;
+    --popover-foreground: 210 18% 16%;
     
-    /* Secondary - muted blue-gray */
-    --secondary: 215 25% 93%;
-    --secondary-foreground: 220 30% 25%;
+    /* Secondary - muted sage */
+    --secondary: 90 16% 92%;
+    --secondary-foreground: 150 10% 25%;
     
     /* Muted states */
-    --muted: 220 15% 94%;
-    --muted-foreground: 220 15% 45%;
+    --muted: 90 12% 90%;
+    --muted-foreground: 150 8% 42%;
     
     /* Status colors */
-    --destructive: 0 72% 51%;
+    --destructive: 0 65% 52%;
     --destructive-foreground: 0 0% 100%;
     
-    --success: 142 70% 40%;
+    --success: 130 45% 36%;
     --success-foreground: 0 0% 100%;
     
     --warning: 38 92% 50%;
-    --warning-foreground: 30 50% 15%;
+    --warning-foreground: 28 60% 14%;
     
     /* Borders and inputs */
-    --border: 220 20% 88%;
-    --input: 220 20% 88%;
-    --ring: 215 70% 45%;
+    --border: 90 12% 86%;
+    --input: 90 12% 86%;
+    --ring: 86 64% 44%;
     
     --radius: 0.625rem;
     
-    /* Sidebar - slightly warmer */
-    --sidebar-background: 220 25% 96%;
-    --sidebar-foreground: 220 25% 25%;
-    --sidebar-primary: 215 70% 45%;
+    /* Sidebar tuned to logo */
+    --sidebar-background: 90 16% 95%;
+    --sidebar-foreground: 150 10% 20%;
+    --sidebar-primary: 86 64% 44%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 35 90% 52%;
-    --sidebar-accent-foreground: 30 50% 15%;
-    --sidebar-border: 220 20% 90%;
-    --sidebar-ring: 215 70% 45%;
+    --sidebar-accent: 32 84% 52%;
+    --sidebar-accent-foreground: 28 60% 14%;
+    --sidebar-border: 90 12% 88%;
+    --sidebar-ring: 86 64% 44%;
     
     /* Chart colors */
-    --chart-1: 215 70% 50%;
-    --chart-2: 35 90% 55%;
-    --chart-3: 142 70% 45%;
-    --chart-4: 280 65% 55%;
-    --chart-5: 190 80% 45%;
+    --chart-1: 86 64% 44%;
+    --chart-2: 32 84% 52%;
+    --chart-3: 168 52% 44%;
+    --chart-4: 275 45% 52%;
+    --chart-5: 200 60% 46%;
     
     /* Engagement status */
-    --engaged: 142 70% 45%;
+    --engaged: 130 45% 36%;
     --at-risk: 38 92% 50%;
-    --disengaged: 0 72% 55%;
+    --disengaged: 0 65% 55%;
   }
 
   .dark {
-    --primary: 215 70% 55%;
-    --primary-foreground: 220 30% 10%;
+    --primary: 86 64% 48%;
+    --primary-foreground: 210 18% 12%;
     
-    --accent: 35 85% 55%;
-    --accent-foreground: 30 50% 10%;
+    --accent: 32 84% 56%;
+    --accent-foreground: 24 50% 12%;
     
-    --background: 220 25% 10%;
-    --foreground: 220 15% 92%;
+    --background: 210 20% 9%;
+    --foreground: 120 12% 92%;
     
-    --card: 220 25% 13%;
-    --card-foreground: 220 15% 92%;
+    --card: 210 18% 12%;
+    --card-foreground: 120 12% 92%;
     
-    --popover: 220 25% 13%;
-    --popover-foreground: 220 15% 92%;
+    --popover: 210 18% 12%;
+    --popover-foreground: 120 12% 92%;
     
-    --secondary: 220 20% 18%;
-    --secondary-foreground: 220 15% 85%;
+    --secondary: 210 14% 18%;
+    --secondary-foreground: 120 10% 88%;
     
-    --muted: 220 20% 18%;
-    --muted-foreground: 220 15% 60%;
+    --muted: 210 14% 18%;
+    --muted-foreground: 120 10% 68%;
     
-    --destructive: 0 72% 45%;
+    --destructive: 0 65% 48%;
     --destructive-foreground: 0 0% 100%;
     
-    --success: 142 65% 35%;
+    --success: 130 45% 42%;
     --success-foreground: 0 0% 100%;
     
-    --warning: 38 85% 45%;
+    --warning: 38 92% 52%;
     --warning-foreground: 0 0% 100%;
     
-    --border: 220 20% 22%;
-    --input: 220 20% 22%;
-    --ring: 215 70% 55%;
+    --border: 210 14% 22%;
+    --input: 210 14% 22%;
+    --ring: 86 64% 48%;
     
-    --sidebar-background: 220 25% 12%;
-    --sidebar-foreground: 220 15% 88%;
-    --sidebar-primary: 215 70% 55%;
-    --sidebar-primary-foreground: 220 30% 10%;
-    --sidebar-accent: 35 85% 50%;
+    --sidebar-background: 210 18% 11%;
+    --sidebar-foreground: 120 12% 90%;
+    --sidebar-primary: 86 64% 48%;
+    --sidebar-primary-foreground: 210 18% 12%;
+    --sidebar-accent: 32 84% 56%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 220 20% 20%;
-    --sidebar-ring: 215 70% 55%;
+    --sidebar-border: 210 14% 20%;
+    --sidebar-ring: 86 64% 48%;
   }
 }
 

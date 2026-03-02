@@ -2,16 +2,13 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
-  Users,
   Calendar,
   BarChart3,
   Settings,
-  LogOut,
   ChevronLeft,
   ChevronRight,
   FileText,
   Shield,
-  Heart,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { cn } from "@/lib/utils";
@@ -23,11 +20,10 @@ import {
 } from "@/components/ui/tooltip";
 
 const mainNavItems = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard },
-  { title: "Youth Directory", url: "/directory", icon: Users },
-  { title: "Programs", url: "/programs", icon: Calendar },
-  { title: "Analytics", url: "/analytics", icon: BarChart3 },
-  { title: "Reports", url: "/reports", icon: FileText },
+  { title: "Main View", url: "/", icon: LayoutDashboard },
+  { title: "Targeting", url: "/targeting", icon: BarChart3 },
+  { title: "Operations", url: "/operations", icon: Calendar },
+  { title: "Impact", url: "/impact", icon: FileText },
 ];
 
 const bottomNavItems = [
@@ -84,24 +80,25 @@ export function AppSidebar() {
   return (
     <aside
       className={cn(
-        "flex flex-col h-screen bg-sidebar border-r border-sidebar-border transition-all duration-300",
+        "flex flex-col h-screen bg-sidebar border-r border-sidebar-border transition-all duration-300 sticky top-0",
         collapsed ? "w-16" : "w-64"
       )}
     >
       {/* Logo/Brand */}
-      <div className={cn(
-        "flex items-center h-16 px-4 border-b border-sidebar-border",
-        collapsed ? "justify-center" : "gap-3"
-      )}>
-        <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary">
-          <Heart className="h-5 w-5 text-primary-foreground" />
-        </div>
-        {!collapsed && (
-          <div className="flex flex-col">
-            <span className="font-display font-semibold text-sidebar-foreground">Youth Ministry</span>
-            <span className="text-xs text-muted-foreground">Dashboard</span>
-          </div>
-        )}
+      <div className="flex items-center h-16 px-4 border-b border-sidebar-border justify-center" style={{
+        backgroundImage: collapsed ? 'url(/logo_small.png)' :  'url(/logo.png)',
+        backgroundSize: '70%',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+      }}>
+          {/* <img
+            className="w-full h-full object-contain"
+          style={{
+            border:'2px solid red'
+          }}
+            src={collapsed ? "/logo_small.png" : "/logo.png"}
+            alt="Nabad Mobile Hub logo"
+          /> */}
       </div>
 
       {/* Main Navigation */}

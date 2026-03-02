@@ -2,39 +2,65 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { ModeProvider } from "@/context/ModeContext";
+import { AuthProvider } from "@/context/AuthContext";
+import { ThemeProvider } from "@/context/ThemeContext";
+import { RequireAuth } from "@/components/auth/RequireAuth";
 import Dashboard from "./pages/Dashboard";
-import YouthDirectory from "./pages/YouthDirectory";
-import Programs from "./pages/Programs";
-import Analytics from "./pages/Analytics";
-import Reports from "./pages/Reports";
+import Targeting from "./pages/Targeting";
+import Operations from "./pages/Operations";
+import Impact from "./pages/Impact";
 import Admin from "./pages/Admin";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
+import Login from "./pages/Login";
 
 const queryClient = new QueryClient();
+
+const Root = () => (
+  <AppLayout>
+    <Outlet />
+  </AppLayout>
+);
+
+const LoginShell = () => <Outlet />;
+
+const router = createBrowserRouter([
+  {
+    element: <LoginShell />,
+    children: [{ path: "login", element: <Login /> }],
+  },
+  {
+    element: <Root />,
+    children: [
+      { index: true, element: <RequireAuth><Dashboard /></RequireAuth> },
+      { path: "targeting", element: <RequireAuth><Targeting /></RequireAuth> },
+      { path: "operations", element: <RequireAuth><Operations /></RequireAuth> },
+      { path: "impact", element: <RequireAuth><Impact /></RequireAuth> },
+      { path: "admin", element: <RequireAuth><Admin /></RequireAuth> },
+      { path: "settings", element: <RequireAuth><Settings /></RequireAuth> },
+      { path: "*", element: <NotFound /> },
+    ],
+  },
+]);
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <AppLayout>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/directory" element={<YouthDirectory />} />
-            <Route path="/programs" element={<Programs />} />
-            <Route path="/analytics" element={<Analytics />} />
-            <Route path="/reports" element={<Reports />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/settings" element={<Settings />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AppLayout>
-      </BrowserRouter>
+      <ThemeProvider>
+        <ModeProvider>
+          <AuthProvider>
+            <RouterProvider
+              router={router}
+              future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+            />
+          </AuthProvider>
+        </ModeProvider>
+      </ThemeProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

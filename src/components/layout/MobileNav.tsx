@@ -1,14 +1,11 @@
 import { useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
-  Users,
   Calendar,
   BarChart3,
   Settings,
   FileText,
   Shield,
-  Heart,
-  X,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { cn } from "@/lib/utils";
@@ -21,11 +18,10 @@ import {
 } from "@/components/ui/sheet";
 
 const mainNavItems = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard },
-  { title: "Youth Directory", url: "/directory", icon: Users },
-  { title: "Programs", url: "/programs", icon: Calendar },
-  { title: "Analytics", url: "/analytics", icon: BarChart3 },
-  { title: "Reports", url: "/reports", icon: FileText },
+  { title: "Main View", url: "/", icon: LayoutDashboard },
+  { title: "Targeting", url: "/targeting", icon: BarChart3 },
+  { title: "Operations", url: "/operations", icon: Calendar },
+  { title: "Impact", url: "/impact", icon: FileText },
 ];
 
 const bottomNavItems = [
@@ -50,11 +46,10 @@ export function MobileNav({ open, onOpenChange }: MobileNavProps) {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="left" className="w-72 p-0">
         <SheetHeader className="flex flex-row items-center h-16 px-4 border-b border-border">
-          <div className="flex items-center gap-3 flex-1">
-            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary">
-              <Heart className="h-5 w-5 text-primary-foreground" />
+          <div className="flex items-center justify-start flex-1">
+            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-white border border-border overflow-hidden">
+              <img src="/logo.jpeg" alt="Nabad Mobile Hub logo" className="w-full h-full object-cover" />
             </div>
-            <SheetTitle className="font-display font-semibold">Youth Ministry</SheetTitle>
           </div>
         </SheetHeader>
 

@@ -1,0 +1,79 @@
+// Prisma schema for Nabad backend
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Site {
+  id               String   @id
+  settlementName   String
+  district         String?
+  region           String?
+  ochaRegionPcode  String?
+  ochaDistrictPcode String?
+  operationalZone  String?
+  catchment        String?
+  classification   String?
+  locationType     String?
+  lat              Float?
+  lon              Float?
+  households       Int?
+  arrivals14d      Int?
+  arrivalsMale     Int?
+  arrivalsFemale   Int?
+  arrivalsChildren Int?
+  departures14d    Int?
+  mainCause        String?
+  hazardCause      String?
+  conflictCause    String?
+  mainNeed         String?
+  needs            Json?
+  responses        Json?
+  movementType     String?
+  displacementCount String?
+  journeyTime      String?
+  originRegion     String?
+  originDistrict   String?
+  originLocation   String?
+  dataCollectionWeek String?
+  penta3           Float?
+  gam              Float?
+  safety           Float?
+  raw              Json?
+  updatedAt        DateTime @updatedAt
+}
+
+model CommunityAlert {
+  id         String   @id
+  siteName   String
+  district   String?
+  channel    String?
+  category   String?
+  severity   String?
+  message    String
+  reportedAt DateTime
+}
+
+model ImportJob {
+  id         String   @id
+  filename   String
+  status     String   // pending | failed | done
+  message    String?
+  tempPath   String?
+  savedTemp  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  finishedAt DateTime?
+}
+
+model User {
+  id       String @id
+  email    String @unique
+  name     String
+  password String
+  role     String
+}

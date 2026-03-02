@@ -24,15 +24,17 @@ import {
   ExternalLink,
   CheckCircle,
 } from "lucide-react";
+import { useThemeMode } from "@/context/ThemeContext";
 
 const Settings = () => {
+  const { theme, setTheme } = useThemeMode();
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Page Header */}
       <div className="page-header">
         <h1 className="page-title">Settings</h1>
         <p className="page-description">
-          Configure your youth ministry dashboard preferences
+          Configure the Oxfam Novib vulnerability dashboard preferences
         </p>
       </div>
 
@@ -52,30 +54,30 @@ const Settings = () => {
                 <Church className="h-5 w-5" />
                 Organization Details
               </CardTitle>
-              <CardDescription>Basic information about your ministry</CardDescription>
+              <CardDescription>Basic information about the Nabad Mobile Hub deployment</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Church Name</Label>
-                  <Input defaultValue="Grace Community Church" />
+                  <Label>Organization Name</Label>
+                  <Input defaultValue="Oxfam Novib" />
                 </div>
                 <div className="space-y-2">
-                  <Label>Ministry Name</Label>
-                  <Input defaultValue="Youth Ministry" />
+                  <Label>Program Name</Label>
+                  <Input defaultValue="Nabad Mobile Hub" />
                 </div>
                 <div className="space-y-2">
                   <Label>Contact Email</Label>
-                  <Input defaultValue="youth@gracechurch.org" type="email" />
+                  <Input defaultValue="info@oxfam.org" type="email" />
                 </div>
                 <div className="space-y-2">
                   <Label>Contact Phone</Label>
-                  <Input defaultValue="(555) 123-4567" type="tel" />
+                  <Input defaultValue="+252 xx xxx xxxx" type="tel" />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label>Address</Label>
-                <Input defaultValue="123 Faith Avenue, Springfield, IL 62701" />
+                <Input defaultValue="Banadir Region, Somalia" />
               </div>
               <Button>Save Changes</Button>
             </CardContent>
@@ -88,15 +90,15 @@ const Settings = () => {
                 <Palette className="h-5 w-5" />
                 Appearance
               </CardTitle>
-              <CardDescription>Customize the look and feel</CardDescription>
+              <CardDescription>Align the UI to Oxfam Novib branding and map style</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-5">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <p className="font-medium">Theme</p>
-                  <p className="text-sm text-muted-foreground">Choose your preferred color scheme</p>
+                  <p className="text-sm text-muted-foreground">Light / Dark / follow system</p>
                 </div>
-                <Select defaultValue="light">
+                <Select defaultValue={theme} onValueChange={(val) => setTheme(val as "light" | "dark" | "system")}>
                   <SelectTrigger className="w-[150px]">
                     <SelectValue />
                   </SelectTrigger>
@@ -107,11 +109,51 @@ const Settings = () => {
                   </SelectContent>
                 </Select>
               </div>
+
               <Separator />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <p className="font-medium">Primary color</p>
+                  <div className="flex items-center gap-3">
+                    <Input type="color" defaultValue="#4CAF50" className="w-24 h-10 p-1" />
+                    <p className="text-sm text-muted-foreground">Used for buttons, highlights, and CVI emphasis</p>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <p className="font-medium">Accent color</p>
+                  <div className="flex items-center gap-3">
+                    <Input type="color" defaultValue="#F1A93C" className="w-24 h-10 p-1" />
+                    <p className="text-sm text-muted-foreground">Used for alerts and CTA chips</p>
+                  </div>
+                </div>
+              </div>
+
+              <Separator />
+
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <p className="font-medium">Map base style</p>
+                  <p className="text-sm text-muted-foreground">Choose the MapLibre basemap the CVI uses</p>
+                </div>
+                <Select defaultValue="positron">
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="positron">Light (CARTO Positron)</SelectItem>
+                    <SelectItem value="dark-matter">Dark (CARTO Dark Matter)</SelectItem>
+                    <SelectItem value="osm">OSM Standard</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <Separator />
+
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <p className="font-medium">Compact Mode</p>
-                  <p className="text-sm text-muted-foreground">Reduce spacing for more content</p>
+                  <p className="text-sm text-muted-foreground">Reduce padding for field laptops</p>
                 </div>
                 <Switch />
               </div>
@@ -131,9 +173,9 @@ const Settings = () => {
             <CardContent className="space-y-6">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <p className="font-medium">At-Risk Youth Alerts</p>
+                  <p className="font-medium">Displacement Surge Alerts</p>
                   <p className="text-sm text-muted-foreground">
-                    Get notified when a youth's engagement drops significantly
+                    Notify when IOM-DTM reports &gt;15% new arrivals in 14 days
                   </p>
                 </div>
                 <Switch defaultChecked />
@@ -141,9 +183,9 @@ const Settings = () => {
               <Separator />
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <p className="font-medium">Attendance Warnings</p>
+                  <p className="font-medium">Penta3 Coverage Alerts</p>
                   <p className="text-sm text-muted-foreground">
-                    Alert when someone misses 3+ consecutive meetings
+                    Alert when Penta3 drops below 50% in any district
                   </p>
                 </div>
                 <Switch defaultChecked />
@@ -151,9 +193,9 @@ const Settings = () => {
               <Separator />
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <p className="font-medium">New Registration Notifications</p>
+                  <p className="font-medium">Community SMS (CDMC)</p>
                   <p className="text-sm text-muted-foreground">
-                    Notify when a new youth member registers
+                    Ping when critical protection alerts arrive
                   </p>
                 </div>
                 <Switch defaultChecked />
@@ -163,7 +205,7 @@ const Settings = () => {
                 <div className="space-y-0.5">
                   <p className="font-medium">Weekly Summary Email</p>
                   <p className="text-sm text-muted-foreground">
-                    Receive a weekly digest of key metrics
+                    Receive a weekly digest of CVI, arrivals, and safety overrides
                   </p>
                 </div>
                 <Switch />
@@ -184,23 +226,23 @@ const Settings = () => {
             <CardContent className="space-y-4">
               {[
                 {
-                  name: "Church Management System",
-                  description: "Sync member data with your main church database",
-                  connected: false,
+                  name: "DHIS2 (MoH)",
+                  description: "Pull Penta3 coverage and GAM prevalence every 14 days",
+                  connected: true,
                 },
                 {
-                  name: "Planning Center",
-                  description: "Import attendance and volunteer data",
-                  connected: false,
+                  name: "IOM-DTM ETT",
+                  description: "Ingest displacement arrivals (14d) for CVI",
+                  connected: true,
                 },
                 {
-                  name: "Mailchimp",
-                  description: "Sync youth contacts for email communications",
-                  connected: false,
+                  name: "CDMC SMS (DAWA CFRM)",
+                  description: "Stream community protection alerts for ground-truthing",
+                  connected: true,
                 },
                 {
-                  name: "Google Calendar",
-                  description: "Sync program schedules and events",
+                  name: "MapLibre / CARTO",
+                  description: "Basemap tiles for CVI choropleth",
                   connected: true,
                 },
               ].map((integration) => (
